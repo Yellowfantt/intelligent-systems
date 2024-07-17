@@ -4,16 +4,14 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 
-# Carregando o conjunto de dados
+
 df = pd.read_csv("bases/ObesityDataSet_raw_and_data_sinthetic.csv")
-# Visualizando as primeiras linhas do conjunto de dados
+
 print(df.head())
 
-# Seleção dos atributos e variável alvo
 selected_features = df[['Gender', 'Age', 'Height', 'Weight', 'family_history_with_overweight', 'FAVC', 'FCVC', 'NCP', 'CAEC', 'SMOKE', 'CH2O', 'SCC', 'FAF', 'TUE']].copy()
 target_variable = df['NObeyesdad'].copy()
 
-# Encoding dos atributos categóricos
 le = LabelEncoder()
 selected_features['Gender'] = le.fit_transform(selected_features['Gender'])
 selected_features['family_history_with_overweight'] = le.fit_transform(selected_features['family_history_with_overweight'])
@@ -22,7 +20,6 @@ selected_features['CAEC'] = le.fit_transform(selected_features['CAEC'])
 selected_features['SMOKE'] = le.fit_transform(selected_features['SMOKE'])
 selected_features['SCC'] = le.fit_transform(selected_features['SCC'])
 
-# Mapeando as categorias da variável alvo (NObesity) para valores numéricos
 class_mapping = {
     'Insufficient_Weight': 0,
     'Normal_Weight': 1,
@@ -35,7 +32,6 @@ class_mapping = {
 
 target_variable = target_variable.map(class_mapping)
 
-# Dividindo os dados em conjuntos de treinamento e teste
 X_train, X_test, y_train, y_test = train_test_split(selected_features, target_variable, test_size=0.2, random_state=42)
 
 # Normalização dos atributos
